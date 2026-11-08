@@ -8,6 +8,7 @@ Date: 2026-11-08.
 |---|---|
 | Skill frontmatter and UI metadata | Parsed with a real safe YAML parser; required fields and default invocation pass |
 | Router size and portable references | 68-line router; all 16 local links resolve within the skill |
+| Repository documentation | Getting-started, usage, product-planning and maintenance guides; all local documentation links validated |
 | Source registry | Three guide trees, 29 linked chapters and all 11 requested ecosystem projects |
 | Python syntax | Inspector, repository validator and inspector tests parse successfully |
 | Inspector behavior | Eight automated tests pass |

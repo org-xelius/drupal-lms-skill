@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate skill metadata, bundled links and the documented source registry."""
+"""Validate skill metadata, documentation links and the source registry."""
 
 from __future__ import annotations
 
@@ -82,6 +82,18 @@ def validate() -> dict:
     for path in (SKILL / "references").iterdir():
         require(f"references/{path.name}" in direct_links, f"Reference is not linked from router: {path.name}")
 
+    repository_links = 0
+    documents = [ROOT / "README.md", ROOT / "VALIDATION.md", ROOT / "AGENTS.md",
+                 *sorted((ROOT / "docs").rglob("*.md"))]
+    for path in documents:
+        for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", path.read_text(encoding="utf-8")):
+            if re.match(r"[A-Za-z][A-Za-z0-9+.-]*:", target) or target.startswith("#"):
+                continue
+            resolved = (path.parent / target.split("#", 1)[0]).resolve()
+            require(resolved.is_relative_to(ROOT), f"Documentation link leaves the repository: {path.name}: {target}")
+            require(resolved.is_file(), f"Broken documentation link: {path.name}: {target}")
+            repository_links += 1
+
     registry = json.loads((SKILL / "references/source-index.json").read_text(encoding="utf-8"))
     require(registry["schema_version"] == 1, "Unexpected source registry schema")
     datetime.date.fromisoformat(registry["review_date"])
@@ -118,6 +130,7 @@ def validate() -> dict:
     return {
         "skill": front["name"], "router_lines": len(text.splitlines()),
         "local_links_checked": references, "guide_chapters": len(chapters),
+        "repository_documentation_links_checked": repository_links,
         "ecosystem_projects": len(modules), "python_files_checked": len(python_files),
         "ci_workflow_checked": True, "result": "passed",
     }

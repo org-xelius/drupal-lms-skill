@@ -1,8 +1,22 @@
-# Drupal LMS skill
+# Xelius Drupal LMS skill
 
 Use one skill for course creation, application development and Activity-Answer plugin development with the Drupal LMS contributed module (`drupal/lms`).
 
 Select existing LMS configuration and ecosystem modules before custom code. The bundle maps approval-based enrolment, uploads, Webform, certificates, messages, course portability, xAPI, H5P, SCORM and Opigno migration to their existing projects.
+
+Repository: [org-xelius/xel-drupal-lms](https://github.com/org-xelius/xel-drupal-lms).
+
+This repository contains an assistant skill and its supporting documentation. It does not contain a Drupal site, install the LMS module, or establish a working product environment.
+
+## Documentation
+
+| Guide | Read it for |
+|---|---|
+| [Getting started](docs/getting-started.md) | Clone, validate, install or use the source in a project |
+| [Using the workflows](docs/usage.md) | Course creation, product development, plugins and example requests |
+| [Planning product features](docs/product-planning.md) | Choose existing configuration/modules and define the remaining work |
+| [Maintenance](docs/maintenance.md) | Update sources, validate changes, interpret CI and record evidence |
+| [Validation record](VALIDATION.md) | Completed checks and remaining source/runtime limits |
 
 ## Use
 
@@ -14,7 +28,7 @@ After installation, use requests such as:
 - `Use $drupal-lms to plan enrolment approvals and certificates using existing modules.`
 - `Use $drupal-lms to evaluate whether this interaction needs a custom Activity-Answer plugin.`
 
-For this product workspace, the parent `AGENTS.md` can also route work directly to the source copy. Do not describe source availability as an account-wide skill installation.
+For project use without installation, follow the [source-based setup](docs/getting-started.md#use-the-source-in-a-product-project). Do not describe project-local source availability as an account-wide skill installation.
 
 ## Contents
 
