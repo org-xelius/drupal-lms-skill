@@ -14,6 +14,7 @@ Keep the skill portable and focused. Maintain one short router and three workflo
 | Skill display name or invocation example | `skills/drupal-lms/agents/openai.yaml` |
 | Inspector behavior | `scripts/inspect_project.py` and meaningful checks under `tests/` |
 | Reader-facing setup or usage | Root README and `docs/` |
+| npx distribution or directory metadata | `docs/distribution.md`, `skills.sh.json` and `tools/check_skills_install.py` |
 
 Paths shortened to `references/` or `scripts/` in this table are relative to `skills/drupal-lms/`.
 
@@ -34,10 +35,13 @@ From the repository root:
 ```bash
 python3 tools/validate_repository.py
 python3 -m unittest discover -s tests -v
+python3 tools/check_skills_install.py
 git diff --check
 ```
 
-The validator checks metadata, skill portability, repository documentation links, source-registry completeness, Python syntax and CI structure. The automated tests check the read-only inspector's behavior. GitHub Actions runs the validator and tests on pushes and pull requests; a configured workflow is not evidence of a completed remote run.
+The validator checks metadata, portability, documentation links, source completeness, Python syntax, directory configuration and CI structure. Inspector tests check read-only behavior. The Skills CLI check verifies discovery and an isolated project installation, including supporting files. GitHub Actions runs these checks on pushes and pull requests; configuration does not establish a completed remote run.
+
+The install check pins Skills CLI 1.7.6. Review its current Node requirements, commands and behavior before changing that pin, then update distribution guidance and rerun the check. Test telemetry stays disabled. Use real public-repository installations, rather than smoke-test counts, for skills.sh discovery; see [distribution](distribution.md).
 
 For workflow changes, exercise a representative request using the revised skill. Check that it loads the appropriate references, evaluates existing modules, preserves project boundaries and reports verification limits. Use fresh task context for an independent check when it would expose a meaningful failure mode.
 

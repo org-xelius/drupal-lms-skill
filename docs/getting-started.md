@@ -2,6 +2,16 @@
 
 Use this repository to give a skill-capable assistant focused guidance for the Drupal LMS contributed module (`drupal/lms`). Keep skill setup separate from installing Drupal or configuring a product site.
 
+## Install with npx
+
+With Node.js/npm available, run from your product project:
+
+```bash
+npx skills add org-xelius/drupal-lms-skill --skill drupal-lms
+```
+
+Select the coding agents when prompted. For a Codex project, use `--agent codex`; add `--global` only when you want a user-level installation across projects. See [distribution](distribution.md) for the complete flow and the tested CLI/Node versions.
+
 ## Obtain and validate the source
 
 Use Git and Python 3.10 or later:
@@ -11,6 +21,7 @@ git clone https://github.com/org-xelius/drupal-lms-skill.git
 cd drupal-lms-skill
 python3 tools/validate_repository.py
 python3 -m unittest discover -s tests -v
+python3 tools/check_skills_install.py
 ```
 
 The validator needs a safe YAML parser. It uses PyYAML when available and otherwise Ruby/Psych. If neither is available, create a local Python environment and install PyYAML:
@@ -22,17 +33,17 @@ python -m pip install 'PyYAML>=6,<7'
 python tools/validate_repository.py
 ```
 
-These checks validate the skill package, documentation links, source registry and inspector behavior. They do not install or test Drupal.
+These checks validate the package, documentation links, source registry, inspector and isolated Skills CLI installation. The installation check uses Node.js/npm and a pinned CLI version. They do not install or test Drupal.
 
-## Install the skill
+## Other installation workflows
 
 The complete installable directory is [skills/drupal-lms](../skills/drupal-lms/SKILL.md). It includes the workflow router, references, templates, UI metadata and helper script. Preserve that directory structure; copying only `SKILL.md` loses the supporting material.
 
-Use your assistant's supported skill-installation workflow, selecting `skills/drupal-lms` from this repository. A suitable installation request is:
+For an assistant that manages its own skill directory rather than a supported local coding agent, use its installation workflow with `skills/drupal-lms`. A suitable request is:
 
 > Install the drupal-lms skill from https://github.com/org-xelius/drupal-lms-skill, using skills/drupal-lms as the skill directory.
 
-Verify that the assistant reports a successful installation and can locate the bundled references. Cloning the repository or opening its files alone does not establish installation.
+Verify installation in the chosen tool and that it can locate bundled references. A Skills CLI installation into a local coding agent does not establish an account-wide ChatGPT skill installation. Cloning the repository or opening its files alone does not establish either.
 
 Once installed, start with:
 

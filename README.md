@@ -6,13 +6,32 @@ Select existing LMS configuration and ecosystem modules before custom code. The 
 
 Repository: [org-xelius/drupal-lms-skill](https://github.com/org-xelius/drupal-lms-skill).
 
+[![skills.sh installs](https://skills.sh/b/org-xelius/drupal-lms-skill)](https://skills.sh/org-xelius/drupal-lms-skill)
+
 This repository contains an assistant skill and its supporting documentation. It does not contain a Drupal site, install the LMS module, or establish a working product environment.
+
+## Install with npx
+
+Run from the product project where you want to use the skill:
+
+```bash
+npx skills add org-xelius/drupal-lms-skill --skill drupal-lms
+```
+
+Choose the coding agents in the installer, or target Codex explicitly:
+
+```bash
+npx skills add org-xelius/drupal-lms-skill --skill drupal-lms --agent codex
+```
+
+The default scope is the current project. The repository's `skills/drupal-lms/SKILL.md` layout is discovered by the standard Skills CLI. See [distribution and skills.sh](docs/distribution.md) for global installation, private repository authentication and listing requirements.
 
 ## Documentation
 
 | Guide | Read it for |
 |---|---|
 | [Getting started](docs/getting-started.md) | Clone, validate, install or use the source in a project |
+| [Distribution and skills.sh](docs/distribution.md) | Install with npx, check discovery and understand directory listing |
 | [Using the workflows](docs/usage.md) | Course creation, product development, plugins and example requests |
 | [Planning product features](docs/product-planning.md) | Choose existing configuration/modules and define the remaining work |
 | [Maintenance](docs/maintenance.md) | Update sources, validate changes, interpret CI and record evidence |
@@ -20,7 +39,7 @@ This repository contains an assistant skill and its supporting documentation. It
 
 ## Use
 
-The portable skill directory is [skills/drupal-lms](skills/drupal-lms/SKILL.md). Install that complete directory through your assistant's supported skill-installation workflow. Cloning this repository by itself does not install or activate the skill.
+The portable skill directory is [skills/drupal-lms](skills/drupal-lms/SKILL.md). The npx installer carries its references, templates and helper script with it. Other assistant-specific installation workflows can use that complete directory too. Cloning this repository by itself does not install or activate the skill.
 
 After installation, use requests such as:
 
@@ -39,6 +58,8 @@ For project use without installation, follow the [source-based setup](docs/getti
 | `skills/drupal-lms/assets/` | Course, feature, plugin and project-guidance templates |
 | `skills/drupal-lms/scripts/inspect_project.py` | Read-only Composer/source inventory |
 | `tools/validate_repository.py` | Metadata, YAML, local links and source-registry validation |
+| `tools/check_skills_install.py` | Skills CLI discovery and isolated installation check |
+| `skills.sh.json` | Directory-page grouping metadata, separate from installation |
 | `tests/` | Behavior checks for the project inspector |
 
 ## Validate
@@ -48,10 +69,11 @@ Use Python 3.10 or later. YAML validation uses PyYAML if available, otherwise sy
 ```bash
 python3 tools/validate_repository.py
 python3 -m unittest discover -s tests -v
+python3 tools/check_skills_install.py
 python3 skills/drupal-lms/scripts/inspect_project.py /path/to/drupal-project
 ```
 
-The GitHub workflow uses Python 3.12 and PyYAML. Checks do not install Drupal or certify extension compatibility.
+The installation check needs Node.js/npm and uses Skills CLI 1.7.6 with Node.js 22.20 or newer. It installs only into a temporary test project, disables test telemetry and verifies the bundled files. The GitHub workflow uses Python 3.12 and Node.js 24. Checks do not install Drupal or certify extension compatibility.
 
 ## Evidence and maintenance
 

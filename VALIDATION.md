@@ -2,19 +2,31 @@
 
 Date: 2026-11-08.
 
+This record describes checks completed against the local source; it is not a statement of current remote publication or directory-listing status.
+
 ## Completed checks
 
 | Check | Observed result |
 |---|---|
 | Skill frontmatter and UI metadata | Parsed with a real safe YAML parser; required fields and default invocation pass |
 | Router size and portable references | 68-line router; all 16 local links resolve within the skill |
-| Repository documentation | Getting-started, usage, product-planning and maintenance guides; all local documentation links validated |
+| Repository documentation | Getting-started, usage, product-planning, maintenance and distribution guides; all local documentation links validated |
 | Source registry | Three guide trees, 29 linked chapters and all 11 requested ecosystem projects |
-| Python syntax | Inspector, repository validator and inspector tests parse successfully |
+| Python syntax | Inspector, repository validator, Skills CLI installation checker and inspector tests parse successfully |
 | Inspector behavior | Eight automated tests pass |
-| CI configuration | YAML, push/PR triggers, read-only repository permissions and check commands pass local validation |
+| CI configuration | YAML, push/PR triggers, read-only repository permissions, Node setup and check commands pass local validation |
+| Skills CLI compatibility | CLI 1.7.6 discovers drupal-lms and installs it into a temporary Codex project; all 15 bundled files match their source bytes |
+| Directory-page metadata | skills.sh.json has valid expected fields and refers to the actual skill name |
 
 The inspector checks distinguish declared constraints, locked dependencies and installed-package metadata; preserve unknown enabled/runtime state; support a custom webroot/vendor path; reject malformed metadata; preserve input files; avoid unrelated settings; and report a missing root as an error.
+
+## npx distribution verification
+
+The installation check used an existing official Skills CLI 1.7.6 entry point with Node.js 26.13.0. It listed the local source, installed a copy into a temporary Codex project and compared all 15 bundled files. Test telemetry was disabled and the temporary project was removed.
+
+The default npx launcher was also attempted, but this workspace could not resolve registry.npmjs.org. The locally available CLI therefore verified discovery/installation behavior; fresh npm package retrieval was not verified. CI is configured to run the same check through npx using the pinned CLI and Node.js 24.
+
+No public GitHub install, public repository-visibility check, telemetry ingestion, skills.sh listing or page-cache refresh was verified. The new directory metadata and README badge do not establish those outcomes.
 
 ## Workflow trials
 

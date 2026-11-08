@@ -1,0 +1,10 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "groupings": [
+    {
+      "title": "Drupal LMS product development",
+      "description": "Course creation, ecosystem-based product development and Activity-Answer plugins.",
+      "skills": ["drupal-lms"]
+    }
+  ]
+}

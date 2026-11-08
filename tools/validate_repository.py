@@ -114,6 +114,22 @@ def validate() -> dict:
     for key, value in registry["validation_limits"].items():
         require(isinstance(value, bool), f"Evidence flag must be boolean: {key}")
 
+    directory_config = json.loads((ROOT / "skills.sh.json").read_text(encoding="utf-8"))
+    require(directory_config.get("$schema") == "https://skills.sh/schemas/skills.sh.schema.json", "Unexpected skills.sh schema")
+    require(set(directory_config) <= {"$schema", "schema", "notGrouped", "groupings", "paths"}, "Unknown skills.sh field")
+    groups = directory_config.get("groupings", [])
+    require(isinstance(groups, list) and bool(groups), "Missing skills.sh grouping")
+    grouped_skills = []
+    for group in groups:
+        require(isinstance(group, dict), "Directory group must be an object")
+        require(set(group) <= {"title", "description", "skills"}, "Unknown directory group field")
+        require(isinstance(group.get("title"), str) and 0 < len(group["title"]) <= 120, "Invalid directory group title")
+        names = group.get("skills", [])
+        require(isinstance(names, list) and bool(names), "Directory group needs skill names")
+        require(all(name == front["name"] for name in names), "Directory group refers to an unknown skill")
+        grouped_skills.extend(names)
+    require(front["name"] in grouped_skills, "Directory metadata omits drupal-lms")
+
     workflow = load_yaml((ROOT / ".github/workflows/validate.yml").read_text(encoding="utf-8"))
     require(isinstance(workflow, dict), "CI workflow must be a YAML mapping")
     # YAML 1.1 parsers can interpret the unquoted GitHub key 'on' as True.
@@ -123,6 +139,8 @@ def validate() -> dict:
     steps = workflow.get("jobs", {}).get("validate", {}).get("steps", [])
     require(any("tools/validate_repository.py" in step.get("run", "") for step in steps), "CI does not validate the bundle")
     require(any("unittest discover" in step.get("run", "") for step in steps), "CI does not run inspector checks")
+    require(any(step.get("uses", "").startswith("actions/setup-node@") for step in steps), "CI needs Node for Skills CLI")
+    require(any("check_skills_install.py" in step.get("run", "") for step in steps), "CI does not check Skills installation")
 
     python_files = [*SKILL.rglob("*.py"), *ROOT.glob("tools/*.py"), *ROOT.glob("tests/*.py")]
     for path in python_files:
@@ -132,7 +150,7 @@ def validate() -> dict:
         "local_links_checked": references, "guide_chapters": len(chapters),
         "repository_documentation_links_checked": repository_links,
         "ecosystem_projects": len(modules), "python_files_checked": len(python_files),
-        "ci_workflow_checked": True, "result": "passed",
+        "ci_workflow_checked": True, "skills_sh_config_checked": True, "result": "passed",
     }
 
 
