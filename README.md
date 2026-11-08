@@ -4,7 +4,7 @@ Use one skill for course creation, application development and Activity-Answer p
 
 Select existing LMS configuration and ecosystem modules before custom code. The bundle maps approval-based enrolment, uploads, Webform, certificates, messages, course portability, xAPI, H5P, SCORM and Opigno migration to their existing projects.
 
-Repository: [org-xelius/xel-drupal-lms](https://github.com/org-xelius/xel-drupal-lms).
+Repository: [org-xelius/drupal-lms-skill](https://github.com/org-xelius/drupal-lms-skill).
 
 This repository contains an assistant skill and its supporting documentation. It does not contain a Drupal site, install the LMS module, or establish a working product environment.
 

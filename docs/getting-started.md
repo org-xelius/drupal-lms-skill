@@ -7,8 +7,8 @@ Use this repository to give a skill-capable assistant focused guidance for the D
 Use Git and Python 3.10 or later:
 
 ```bash
-git clone https://github.com/org-xelius/xel-drupal-lms.git
-cd xel-drupal-lms
+git clone https://github.com/org-xelius/drupal-lms-skill.git
+cd drupal-lms-skill
 python3 tools/validate_repository.py
 python3 -m unittest discover -s tests -v
 ```
@@ -30,7 +30,7 @@ The complete installable directory is [skills/drupal-lms](../skills/drupal-lms/S
 
 Use your assistant's supported skill-installation workflow, selecting `skills/drupal-lms` from this repository. A suitable installation request is:
 
-> Install the drupal-lms skill from https://github.com/org-xelius/xel-drupal-lms, using skills/drupal-lms as the skill directory.
+> Install the drupal-lms skill from https://github.com/org-xelius/drupal-lms-skill, using skills/drupal-lms as the skill directory.
 
 Verify that the assistant reports a successful installation and can locate the bundled references. Cloning the repository or opening its files alone does not establish installation.
 
@@ -45,7 +45,7 @@ When installation is unavailable or a team wants an explicit project reference, 
 Add the actual path to this checkout's `skills/drupal-lms/SKILL.md`. For example:
 
 ```text
-For Drupal LMS work, read /path/to/xel-drupal-lms/skills/drupal-lms/SKILL.md
+For Drupal LMS work, read /path/to/drupal-lms-skill/skills/drupal-lms/SKILL.md
 and the workflow references relevant to the request.
 ```
 
