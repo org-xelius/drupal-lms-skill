@@ -1,0 +1,470 @@
+{
+  "schema_version": 1,
+  "skill": "drupal-lms",
+  "review_date": "2026-11-08",
+  "evidence_scope": "Official project pages and documentation excerpts; complete guide trees indexed. Retrieved pages may be cached. No full offline mirror or verified installed source/runtime.",
+  "baseline": {
+    "project_url": "https://www.drupal.org/project/lms",
+    "release_url": "https://www.drupal.org/project/lms/releases/1.2.5",
+    "release_snapshot": "1.2.5",
+    "drupal_compatibility_snapshot": "^10.3 || ^11",
+    "version_policy": "Resolve the actual project and refresh version-sensitive observations before implementation."
+  },
+  "guides": [
+    {
+      "id": "course",
+      "title": "Course Creator's Guide",
+      "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms",
+      "pages": [
+        {
+          "id": "course-introduction",
+          "title": "Introduction",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/introduction",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "course-installation-and-setup",
+          "title": "Installation and Setup",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/installation-and-setup",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "course-general-settings",
+          "title": "General Settings",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/general-settings",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "course-activities",
+          "title": "Activities",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/activities",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "course-activity-types-and-plugins",
+          "title": "Activity Types and Plugins",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/activity-types-and-plugins",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "course-lessons",
+          "title": "Lessons",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/lessons",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "course-courses",
+          "title": "Courses",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/courses",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "course-student-class-management",
+          "title": "Student & Class Management",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/student-class-management",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "course-reporting-and-tracking",
+          "title": "Reporting and Tracking",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/reporting-and-tracking",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "course-roadmap-and-ongoing-development",
+          "title": "Roadmap and Ongoing Development",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/course-creators-guide-for-drupal-lms/roadmap-and-ongoing-development",
+          "review_status": "indexed_and_excerpt_reviewed"
+        }
+      ]
+    },
+    {
+      "id": "development",
+      "title": "Developer's Guide",
+      "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms",
+      "pages": [
+        {
+          "id": "development-module-architecture",
+          "title": "Module Architecture",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/module-architecture",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-local-development-qa",
+          "title": "Local Development & QA",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/local-development-qa",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-entity-structure",
+          "title": "Entity Structure",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/entity-structure",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-plugin-system",
+          "title": "Plugin System",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/plugin-system",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-form-system",
+          "title": "Form System",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/form-system",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-services-managers-hooks-and-query-alters",
+          "title": "Services, Managers, Hooks, and Query Alters",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/services-managers-hooks-and-query-alters",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-theming-and-frontend-integration",
+          "title": "Theming and Frontend Integration",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/theming-and-frontend-integration",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-drupal-lms-api",
+          "title": "Drupal LMS API",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/drupal-lms-api",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-error-handling-troubleshooting",
+          "title": "Error Handling & Troubleshooting",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/error-handling-troubleshooting",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-developers-cookbook",
+          "title": "Developer's Cookbook",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/developers-cookbook",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "development-testing-and-deployment",
+          "title": "Testing and Deployment",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/developers-guide-for-drupal-lms/testing-and-deployment",
+          "review_status": "indexed_and_excerpt_reviewed"
+        }
+      ]
+    },
+    {
+      "id": "plugins",
+      "title": "Plugin Developer's Guide",
+      "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/plugin-developers-guide-for-drupal-lms",
+      "pages": [
+        {
+          "id": "plugins-introduction",
+          "title": "Introduction",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/plugin-developers-guide-for-drupal-lms/introduction",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "plugins-fundamentals-of-activity-answer-plugins",
+          "title": "Fundamentals of Activity-Answer Plugins",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/plugin-developers-guide-for-drupal-lms/fundamentals-of-activity-answer-plugins",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "plugins-required-and-optional-methods",
+          "title": "Required and Optional Methods",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/plugin-developers-guide-for-drupal-lms/required-and-optional-methods",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "plugins-plugin-configuration-files",
+          "title": "Plugin Configuration Files",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/plugin-developers-guide-for-drupal-lms/plugin-configuration-files",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "plugins-custom-field-types-and-widgets",
+          "title": "Custom Field Types and Widgets",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/plugin-developers-guide-for-drupal-lms/custom-field-types-and-widgets",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "plugins-ajax-implementation",
+          "title": "AJAX Implementation",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/plugin-developers-guide-for-drupal-lms/ajax-implementation",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "plugins-integration-and-deployment",
+          "title": "Integration and Deployment",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/plugin-developers-guide-for-drupal-lms/integration-and-deployment",
+          "review_status": "indexed_and_excerpt_reviewed"
+        },
+        {
+          "id": "plugins-reference-existing-plugins",
+          "title": "Reference: Existing Plugins",
+          "url": "https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/drupal-lms/plugin-developers-guide-for-drupal-lms/reference-existing-plugins",
+          "review_status": "indexed_and_excerpt_reviewed"
+        }
+      ]
+    }
+  ],
+  "ecosystem": [
+    {
+      "project_id": "lms_membership_request",
+      "name": "LMS Membership Request",
+      "feature": "enrolment_approval",
+      "project_url": "https://www.drupal.org/project/lms_membership_request",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Group Membership Request"
+      ],
+      "snapshot": {
+        "release": "1.1.0-beta4",
+        "drupal_compatibility": "^10.3 || ^11",
+        "security_advisory_observation": "no_supported_stable_reported",
+        "note": "Minimally maintained; verify approval and join permissions."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false
+    },
+    {
+      "project_id": "lms_file_upload",
+      "name": "LMS File Upload",
+      "feature": "file_submission",
+      "project_url": "https://www.drupal.org/project/lms_file_upload",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Drupal LMS",
+        "Private file system"
+      ],
+      "snapshot": {
+        "release": "1.0.2",
+        "drupal_compatibility": "^10 || ^11",
+        "security_advisory_observation": "stable_release_coverage_shown",
+        "note": "Private learner uploads; check evaluation and access behavior."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false
+    },
+    {
+      "project_id": "lms_webform",
+      "name": "LMS Webform",
+      "feature": "form_activity",
+      "project_url": "https://www.drupal.org/project/lms_webform",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Drupal LMS",
+        "Webform"
+      ],
+      "snapshot": {
+        "release": "1.0.0-beta2",
+        "drupal_compatibility": "^10.3 || ^11",
+        "security_advisory_observation": "project_not_covered",
+        "note": "LMS 1.1.3+ noted; verify score/completion mapping."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false
+    },
+    {
+      "project_id": "lms_certificate",
+      "name": "LMS Certificate",
+      "feature": "certificate_framework",
+      "project_url": "https://www.drupal.org/project/lms_certificate",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Drupal LMS",
+        "FillPDF for the FillPDF rendering path"
+      ],
+      "snapshot": {
+        "release": "1.0.0-alpha3",
+        "drupal_compatibility": "^10.3 || ^11",
+        "security_advisory_observation": "no_supported_stable_reported",
+        "note": "Common certificate integration; choose the rendering approach."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false
+    },
+    {
+      "project_id": "lms_certificate_entity",
+      "name": "LMS Certificate Entity",
+      "feature": "entity_certificate",
+      "project_url": "https://www.drupal.org/project/lms_certificate_entity",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "LMS Certificate",
+        "Entity Print for PDF output"
+      ],
+      "snapshot": {
+        "release": "1.0.x-dev",
+        "drupal_compatibility": "^10 || ^11",
+        "security_advisory_observation": "project_not_covered",
+        "note": "Development release page declares Drupal 10/11; project page does not display a tagged release. Review selected revision and dependencies."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false,
+      "release_source_url": "https://www.drupal.org/project/lms_certificate_entity/releases/1.0.x-dev"
+    },
+    {
+      "project_id": "lms_messages",
+      "name": "LMS Messages",
+      "feature": "learning_messages",
+      "project_url": "https://www.drupal.org/project/lms_messages",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Drupal LMS",
+        "Message"
+      ],
+      "snapshot": {
+        "release": "1.1.0-alpha3",
+        "drupal_compatibility": "^10 || ^11",
+        "security_advisory_observation": "project_not_covered",
+        "note": "Release page dated 2026-11-03 checked after a stale project-page snapshot. Verify selected LMS dependency line and membership-request integration."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false,
+      "release_source_url": "https://www.drupal.org/project/lms_messages/releases/1.1.0-alpha3"
+    },
+    {
+      "project_id": "lms_yaml",
+      "name": "LMS YAML",
+      "feature": "course_portability",
+      "project_url": "https://www.drupal.org/project/lms_yaml",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Drupal LMS"
+      ],
+      "snapshot": {
+        "release": "2.0.0-beta3",
+        "drupal_compatibility": "^11",
+        "security_advisory_observation": "project_not_covered",
+        "note": "Verify actual package schema and LMS dependency line."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false
+    },
+    {
+      "project_id": "lms_xapi",
+      "name": "LMS Xapi",
+      "feature": "xapi_content",
+      "project_url": "https://www.drupal.org/project/lms_xapi",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Drupal LMS",
+        "Configured LRS/runtime as required"
+      ],
+      "snapshot": {
+        "release": "1.0.0-beta1",
+        "drupal_compatibility": "^10.3 || ^11",
+        "security_advisory_observation": "project_not_covered",
+        "note": "Work in progress; verify package support, state and score handling."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false
+    },
+    {
+      "project_id": "lms_h5p",
+      "name": "LMS H5P",
+      "feature": "h5p_activities",
+      "project_url": "https://www.drupal.org/project/lms_h5p",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Drupal LMS",
+        "H5P",
+        "LMS Xapi"
+      ],
+      "snapshot": {
+        "release": "1.0.0-alpha4",
+        "drupal_compatibility": "^10.3 || ^11",
+        "security_advisory_observation": "project_not_covered",
+        "note": "Verify LRS configuration and content-specific scoring."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false
+    },
+    {
+      "project_id": "lms_scorm",
+      "name": "LMS Scorm",
+      "feature": "scorm_content",
+      "project_url": "https://www.drupal.org/project/lms_scorm",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Drupal LMS"
+      ],
+      "snapshot": {
+        "release": "1.1.1",
+        "drupal_compatibility": "^10 || ^11",
+        "security_advisory_observation": "project_not_covered",
+        "note": "Verify the required SCORM edition with an actual package."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false
+    },
+    {
+      "project_id": "lms_migrate",
+      "name": "LMS Migrate",
+      "feature": "opigno_migration",
+      "project_url": "https://www.drupal.org/project/lms_migrate",
+      "review_date": "2026-11-08",
+      "documented_supporting_components": [
+        "Drupal LMS",
+        "Drupal Migrate",
+        "Migrate Plus as applicable"
+      ],
+      "snapshot": {
+        "release": "1.0.0-alpha2",
+        "drupal_compatibility": "^10 || ^11",
+        "security_advisory_observation": "project_not_covered",
+        "note": "Inspect supplied migration examples and source mappings."
+      },
+      "selected_release": null,
+      "installed_source_verified": false,
+      "runtime_verified": false
+    }
+  ],
+  "additional_sources": [
+    {
+      "id": "starter",
+      "url": "https://github.com/graber-1/drupal_lms_ddev",
+      "review_status": "readme_excerpt_reviewed"
+    },
+    {
+      "id": "message-membership-interaction",
+      "url": "https://www.drupal.org/project/grequest/issues/3507217",
+      "review_status": "issue_and_fixed_release_reviewed"
+    },
+    {
+      "id": "lms-source-tag",
+      "url": "https://git.drupalcode.org/project/lms/-/tree/1.2.5",
+      "review_status": "code_host_unavailable"
+    },
+    {
+      "id": "grequest-fixed-release",
+      "url": "https://www.drupal.org/project/grequest/releases/3.2.4",
+      "review_status": "release_notes_reviewed"
+    },
+    {
+      "id": "messages-release",
+      "url": "https://www.drupal.org/project/lms_messages/releases/1.1.0-alpha3",
+      "review_status": "release_page_reviewed"
+    },
+    {
+      "id": "certificate-entity-development-release",
+      "url": "https://www.drupal.org/project/lms_certificate_entity/releases/1.0.x-dev",
+      "review_status": "release_page_reviewed"
+    }
+  ],
+  "validation_limits": {
+    "installed_source_available": false,
+    "drupal_runtime_available": false,
+    "exact_api_signatures_certified": false
+  }
+}

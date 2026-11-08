@@ -1,0 +1,4 @@
+interface:
+  display_name: "Drupal LMS"
+  short_description: "Build LMS products with courses, modules and plugins"
+  default_prompt: "Use $drupal-lms to plan this LMS feature, evaluate existing modules, and implement only the remaining gap."
