@@ -12,13 +12,20 @@ This record describes checks completed against the local source; it is not a sta
 | Router size and portable references | 68-line router; all 16 local links resolve within the skill |
 | Repository documentation | Getting-started, usage, product-planning, maintenance and distribution guides; all local documentation links validated |
 | Source registry | Three guide trees, 29 linked chapters and all 11 requested ecosystem projects |
-| Python syntax | Inspector, repository validator, Skills CLI installation checker and inspector tests parse successfully |
-| Inspector behavior | Eight automated tests pass |
+| Python syntax | All five Python source/test files parse successfully |
+| Automated regression checks | 18 tests pass: project inspection, malformed metadata, discovery, copied bundles, directory metadata and portable file links |
 | CI configuration | YAML, push/PR triggers, read-only repository permissions, Node setup and check commands pass local validation |
 | Skills CLI compatibility | CLI 1.7.6 discovers drupal-lms and installs it into a temporary Codex project; all 15 bundled files match their source bytes |
 | Directory-page metadata | skills.sh.json has valid expected fields and refers to the actual skill name |
+| Install visibility | The first README shell block is the canonical npx install command; the prepared GitHub About text includes the same command |
 
-The inspector checks distinguish declared constraints, locked dependencies and installed-package metadata; preserve unknown enabled/runtime state; support a custom webroot/vendor path; reject malformed metadata; preserve input files; avoid unrelated settings; and report a missing root as an error.
+The inspector distinguishes declared, locked and installed dependency evidence; preserves unknown enabled/runtime state; supports custom webroot/vendor paths; rejects malformed metadata; preserves input files; and avoids unrelated settings. Additional checks reject false discovery matches, missing/extra/changed installed files, copy-mode symlinks, broken/escaping file links and malformed directory metadata.
+
+## Cleanup review
+
+Consolidated duplicated link checks and JSON loading. The inspector now rejects an installed-package object with no package list rather than reporting an empty installed inventory. The installer requires an actual discovery row and an exact copied bundle. YAML/directory metadata failures use clear validation errors.
+
+The README was reduced from 84 to 37 lines, with the npx command immediately after the introduction. Contributor setup lives in maintenance; installation flags/authentication live in distribution. The GitHub About payload is prepared locally, with a documented application step; it has not been applied to live repository metadata.
 
 ## npx distribution verification
 

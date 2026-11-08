@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -16,6 +17,28 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CLI_VERSION = "1.7.6"
 SKILL_NAME = "drupal-lms"
+
+
+def validate_discovery(output: str) -> None:
+    plain = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", output)
+    if not re.search(rf"(?m)^[ \t│]*{re.escape(SKILL_NAME)}[ \t]*$", plain):
+        raise ValueError("The Skills CLI did not list drupal-lms")
+
+
+def bundle_files(root: Path) -> dict[str, bytes]:
+    paths = list(root.rglob("*"))
+    if root.is_symlink() or any(path.is_symlink() for path in paths):
+        raise ValueError("The copy installation contains a symlink")
+    return {path.relative_to(root).as_posix(): path.read_bytes() for path in paths if path.is_file()}
+
+
+def compare_bundles(source: Path, installed: Path) -> int:
+    expected, actual = bundle_files(source), bundle_files(installed)
+    missing, extra = sorted(expected.keys() - actual.keys()), sorted(actual.keys() - expected.keys())
+    changed = sorted(name for name in expected.keys() & actual.keys() if expected[name] != actual[name])
+    if missing or extra or changed:
+        raise ValueError(f"Installed bundle mismatch: missing={missing}, extra={extra}, changed={changed}")
+    return len(expected)
 
 
 def run_cli(command: list[str], arguments: list[str], project: Path) -> str:
@@ -56,9 +79,7 @@ def check_installation(cli_file: Path | None) -> dict:
         version = run_cli(command, ["--version"], project).strip()
         if version != CLI_VERSION:
             raise ValueError(f"Expected Skills CLI {CLI_VERSION}, received {version!r}")
-        discovery = run_cli(command, ["add", str(source), "--list"], project)
-        if SKILL_NAME not in discovery:
-            raise ValueError("The Skills CLI did not discover drupal-lms")
+        validate_discovery(run_cli(command, ["add", str(source), "--list"], project))
         run_cli(command, [
             "add", str(source), "--skill", SKILL_NAME,
             "--agent", "codex", "--copy", "--yes",
@@ -67,12 +88,7 @@ def check_installation(cli_file: Path | None) -> dict:
         installed = project / ".agents" / "skills" / SKILL_NAME
         if not (installed / "SKILL.md").is_file():
             raise ValueError("The Codex project installation is missing SKILL.md")
-        files = sorted(path for path in source_skill.rglob("*") if path.is_file())
-        for original in files:
-            relative = original.relative_to(source_skill)
-            target = installed / relative
-            if not target.is_file() or target.read_bytes() != original.read_bytes():
-                raise ValueError(f"Installed bundle differs at {relative}")
+        file_count = compare_bundles(source_skill, installed)
 
     return {
         "skill": SKILL_NAME,
@@ -80,7 +96,7 @@ def check_installation(cli_file: Path | None) -> dict:
         "launcher": launcher,
         "discovery_verified": True,
         "codex_project_install_verified": True,
-        "bundled_files_verified": len(files),
+        "bundled_files_verified": file_count,
         "test_telemetry_enabled": False,
         "remote_install_verified": False,
         "skills_sh_listing_verified": False,

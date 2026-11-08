@@ -28,11 +28,15 @@ def related(name: str) -> bool:
     return name.startswith(("drupal/lms", "drupal/core")) or name in RELATED_PACKAGES
 
 
-def read_object(path: Path) -> dict[str, Any]:
+def read_json(path: Path) -> Any:
     try:
-        data = json.loads(path.read_text(encoding="utf-8"))
+        return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise ValueError(f"Cannot read valid JSON from {path.name}: {exc}") from exc
+
+
+def read_object(path: Path) -> dict[str, Any]:
+    data = read_json(path)
     if not isinstance(data, dict):
         raise ValueError(f"{path.name} must contain a JSON object")
     return data
@@ -89,11 +93,10 @@ def inspect_project(root: Path) -> dict[str, Any]:
         warnings.append("External vendor directory was not inspected")
     installed = {}
     if installed_path and installed_path.is_file():
-        try:
-            data = json.loads(installed_path.read_text(encoding="utf-8"))
-        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
-            raise ValueError(f"Cannot read installed-package metadata: {exc}") from exc
-        packages = data.get("packages", []) if isinstance(data, dict) else data
+        data = read_json(installed_path)
+        if isinstance(data, dict) and "packages" not in data:
+            raise ValueError("installed.json must contain a packages array")
+        packages = data["packages"] if isinstance(data, dict) else data
         installed = package_versions(packages, "installed-package metadata")
 
     roots = ["web", "docroot", "."]

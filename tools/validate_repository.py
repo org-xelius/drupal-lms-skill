@@ -15,6 +15,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skills/drupal-lms"
+INSTALL_COMMAND = "npx skills add org-xelius/drupal-lms-skill --skill drupal-lms"
+MARKDOWN_LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
 EXPECTED_MODULES = {
     "lms_membership_request", "lms_file_upload", "lms_webform", "lms_certificate",
     "lms_certificate_entity", "lms_messages", "lms_yaml", "lms_xapi", "lms_h5p",
@@ -36,12 +38,50 @@ def load_yaml(content: str):
         if result.returncode:
             raise ValueError(f"YAML parsing failed: {result.stderr.strip()}")
         return json.loads(result.stdout)
-    return yaml.safe_load(content)
+    try:
+        return yaml.safe_load(content)
+    except yaml.YAMLError as exc:
+        raise ValueError(f"YAML parsing failed: {exc}") from exc
 
 
 def require(condition: bool, message: str):
     if not condition:
         raise ValueError(message)
+
+
+def check_local_links(documents, boundary: Path) -> int:
+    boundary = boundary.resolve()
+    count = 0
+    for path in documents:
+        for target in MARKDOWN_LINK.findall(path.read_text(encoding="utf-8")):
+            if re.match(r"[A-Za-z][A-Za-z0-9+.-]*:", target) or target.startswith("#"):
+                continue
+            resolved = (path.parent / target.split("#", 1)[0]).resolve()
+            require(resolved.is_relative_to(boundary), f"Local link leaves its bundle: {path.name}: {target}")
+            require(resolved.is_file(), f"Broken local link: {path.name}: {target}")
+            count += 1
+    return count
+
+
+def validate_directory_config(config, skill_name: str) -> None:
+    require(isinstance(config, dict), "skills.sh configuration must be an object")
+    require(config.get("$schema") == "https://skills.sh/schemas/skills.sh.schema.json", "Unexpected skills.sh schema")
+    require(set(config) <= {"$schema", "schema", "notGrouped", "groupings", "paths"}, "Unknown skills.sh field")
+    require(config.get("notGrouped", "bottom") in ("top", "bottom"), "Invalid ungrouped-skill placement")
+    groups = config.get("groupings", [])
+    require(isinstance(groups, list) and bool(groups), "Missing skills.sh grouping")
+    grouped_skills = []
+    for group in groups:
+        require(isinstance(group, dict), "Directory group must be an object")
+        require(set(group) <= {"title", "description", "skills"}, "Unknown directory group field")
+        require(isinstance(group.get("title"), str) and 0 < len(group["title"]) <= 120, "Invalid directory group title")
+        description = group.get("description", "")
+        require(isinstance(description, str) and len(description) <= 500, "Invalid directory group description")
+        names = group.get("skills", [])
+        require(isinstance(names, list) and bool(names), "Directory group needs skill names")
+        require(all(name == skill_name for name in names), "Directory group refers to an unknown skill")
+        grouped_skills.extend(names)
+    require(skill_name in grouped_skills, "Directory metadata omits the skill")
 
 
 def validate() -> dict:
@@ -62,37 +102,32 @@ def validate() -> dict:
     metadata = load_yaml((SKILL / "agents/openai.yaml").read_text(encoding="utf-8"))
     require(isinstance(metadata, dict), "Agent metadata must be a mapping")
     interface = metadata.get("interface", {})
+    require(isinstance(interface, dict), "Agent interface must be a mapping")
     require(isinstance(interface.get("display_name"), str), "Missing display name")
+    require(isinstance(interface.get("short_description"), str), "UI description must be text")
+    require(isinstance(interface.get("default_prompt"), str), "Default prompt must be text")
     require(25 <= len(interface.get("short_description", "")) <= 64, "UI description length must be 25-64")
     require("$drupal-lms" in interface.get("default_prompt", ""), "Default prompt must mention $drupal-lms")
 
-    references = 0
-    for path in sorted(SKILL.rglob("*.md")):
+    skill_documents = sorted(SKILL.rglob("*.md"))
+    for path in skill_documents:
         content = path.read_text(encoding="utf-8")
         if len(content.splitlines()) > 100:
             require("## Contents" in content, f"Long reference needs contents: {path.name}")
-        for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", content):
-            if re.match(r"[A-Za-z][A-Za-z0-9+.-]*:", target) or target.startswith("#"):
-                continue
-            resolved = (path.parent / target.split("#", 1)[0]).resolve()
-            require(resolved.is_relative_to(SKILL), f"Nonportable local link: {path.name}: {target}")
-            require(resolved.is_file(), f"Broken local link: {path.name}: {target}")
-            references += 1
-    direct_links = set(re.findall(r"\[[^\]]*\]\(([^)]+)\)", text))
+    references = check_local_links(skill_documents, SKILL)
+    direct_links = set(MARKDOWN_LINK.findall(text))
     for path in (SKILL / "references").iterdir():
         require(f"references/{path.name}" in direct_links, f"Reference is not linked from router: {path.name}")
 
-    repository_links = 0
     documents = [ROOT / "README.md", ROOT / "VALIDATION.md", ROOT / "AGENTS.md",
                  *sorted((ROOT / "docs").rglob("*.md"))]
-    for path in documents:
-        for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", path.read_text(encoding="utf-8")):
-            if re.match(r"[A-Za-z][A-Za-z0-9+.-]*:", target) or target.startswith("#"):
-                continue
-            resolved = (path.parent / target.split("#", 1)[0]).resolve()
-            require(resolved.is_relative_to(ROOT), f"Documentation link leaves the repository: {path.name}: {target}")
-            require(resolved.is_file(), f"Broken documentation link: {path.name}: {target}")
-            repository_links += 1
+    repository_links = check_local_links(documents, ROOT)
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    first_command = re.search(r"```bash\n(.*?)\n```", readme, re.S)
+    require(first_command is not None and first_command.group(1).strip() == INSTALL_COMMAND, "README must lead with the npx install command")
+    description = (ROOT / ".github/description.txt").read_text(encoding="utf-8").strip()
+    require(bool(description) and len(description) <= 350 and "\n" not in description, "Keep the repository description on one short line")
+    require(INSTALL_COMMAND in description, "Repository description must include the install command")
 
     registry = json.loads((SKILL / "references/source-index.json").read_text(encoding="utf-8"))
     require(registry["schema_version"] == 1, "Unexpected source registry schema")
@@ -114,21 +149,7 @@ def validate() -> dict:
     for key, value in registry["validation_limits"].items():
         require(isinstance(value, bool), f"Evidence flag must be boolean: {key}")
 
-    directory_config = json.loads((ROOT / "skills.sh.json").read_text(encoding="utf-8"))
-    require(directory_config.get("$schema") == "https://skills.sh/schemas/skills.sh.schema.json", "Unexpected skills.sh schema")
-    require(set(directory_config) <= {"$schema", "schema", "notGrouped", "groupings", "paths"}, "Unknown skills.sh field")
-    groups = directory_config.get("groupings", [])
-    require(isinstance(groups, list) and bool(groups), "Missing skills.sh grouping")
-    grouped_skills = []
-    for group in groups:
-        require(isinstance(group, dict), "Directory group must be an object")
-        require(set(group) <= {"title", "description", "skills"}, "Unknown directory group field")
-        require(isinstance(group.get("title"), str) and 0 < len(group["title"]) <= 120, "Invalid directory group title")
-        names = group.get("skills", [])
-        require(isinstance(names, list) and bool(names), "Directory group needs skill names")
-        require(all(name == front["name"] for name in names), "Directory group refers to an unknown skill")
-        grouped_skills.extend(names)
-    require(front["name"] in grouped_skills, "Directory metadata omits drupal-lms")
+    validate_directory_config(json.loads((ROOT / "skills.sh.json").read_text(encoding="utf-8")), front["name"])
 
     workflow = load_yaml((ROOT / ".github/workflows/validate.yml").read_text(encoding="utf-8"))
     require(isinstance(workflow, dict), "CI workflow must be a YAML mapping")

@@ -80,6 +80,20 @@ class ProjectInspectionTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "must be an array"):
             INSPECTOR.inspect_project(self.root)
 
+    def test_installed_metadata_requires_a_package_list(self):
+        for data in ({}, {"other": []}, {"packages": None}, {"packages": {}}):
+            with self.subTest(data=data):
+                self.write_json("vendor/composer/installed.json", data)
+                with self.assertRaisesRegex(ValueError, "packages array|must be an array"):
+                    INSPECTOR.inspect_project(self.root)
+
+    def test_malformed_installed_metadata_is_reported_consistently(self):
+        path = self.root / "vendor/composer/installed.json"
+        path.parent.mkdir(parents=True)
+        path.write_text("{broken")
+        with self.assertRaisesRegex(ValueError, "valid JSON from installed.json"):
+            INSPECTOR.inspect_project(self.root)
+
     def test_external_vendor_path_is_not_read(self):
         self.write_json("composer.json", {"config": {"vendor-dir": "../outside"}})
         result = INSPECTOR.inspect_project(self.root)

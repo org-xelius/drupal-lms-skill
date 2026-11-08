@@ -1,77 +1,40 @@
 # Getting started
 
-Use this repository to give a skill-capable assistant focused guidance for the Drupal LMS contributed module (`drupal/lms`). Keep skill setup separate from installing Drupal or configuring a product site.
+Use the skill with the Drupal LMS contributed module (`drupal/lms`).
 
-## Install with npx
+## Install and verify
 
-With Node.js/npm available, run from your product project:
+Run from your product project:
 
 ```bash
 npx skills add org-xelius/drupal-lms-skill --skill drupal-lms
+npx skills list
 ```
 
-Select the coding agents when prompted. For a Codex project, use `--agent codex`; add `--global` only when you want a user-level installation across projects. See [distribution](distribution.md) for the complete flow and the tested CLI/Node versions.
+Select the coding agents when prompted. See [installation options](distribution.md) for scope, authentication and updates. For Codex, the project installation includes `.agents/skills/drupal-lms/SKILL.md` and its supporting files.
 
-## Obtain and validate the source
+## Start a task
 
-Use Git and Python 3.10 or later:
+Provide your learning material or product requirement and ask:
 
-```bash
-git clone https://github.com/org-xelius/drupal-lms-skill.git
-cd drupal-lms-skill
-python3 tools/validate_repository.py
-python3 -m unittest discover -s tests -v
-python3 tools/check_skills_install.py
-```
+> Use $drupal-lms to assess this requirement, select existing LMS modules and produce an implementation plan.
 
-The validator needs a safe YAML parser. It uses PyYAML when available and otherwise Ruby/Psych. If neither is available, create a local Python environment and install PyYAML:
+For technical work, supply the actual Drupal repository. The skill establishes dependency versions, enabled modules, membership and available checks before version-sensitive implementation. See [workflow examples](usage.md) and the [feature-planning template](../skills/drupal-lms/assets/feature-plan.md).
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install 'PyYAML>=6,<7'
-python tools/validate_repository.py
-```
+## Inspect a product project
 
-These checks validate the package, documentation links, source registry, inspector and isolated Skills CLI installation. The installation check uses Node.js/npm and a pinned CLI version. They do not install or test Drupal.
-
-## Other installation workflows
-
-The complete installable directory is [skills/drupal-lms](../skills/drupal-lms/SKILL.md). It includes the workflow router, references, templates, UI metadata and helper script. Preserve that directory structure; copying only `SKILL.md` loses the supporting material.
-
-For an assistant that manages its own skill directory rather than a supported local coding agent, use its installation workflow with `skills/drupal-lms`. A suitable request is:
-
-> Install the drupal-lms skill from https://github.com/org-xelius/drupal-lms-skill, using skills/drupal-lms as the skill directory.
-
-Verify installation in the chosen tool and that it can locate bundled references. A Skills CLI installation into a local coding agent does not establish an account-wide ChatGPT skill installation. Cloning the repository or opening its files alone does not establish either.
-
-Once installed, start with:
-
-> Use $drupal-lms to assess this feature against existing Drupal LMS configuration and ecosystem modules.
-
-## Use the source in a product project
-
-When installation is unavailable or a team wants an explicit project reference, keep a checkout accessible to the assistant. Merge the [project-guidance template](../skills/drupal-lms/assets/project-AGENTS.md) into the product's existing `AGENTS.md`, preserving its commands and conventions.
-
-Add the actual path to this checkout's `skills/drupal-lms/SKILL.md`. For example:
-
-```text
-For Drupal LMS work, read /path/to/drupal-lms-skill/skills/drupal-lms/SKILL.md
-and the workflow references relevant to the request.
-```
-
-Keep this as project guidance; it does not imply that the skill is installed for other projects or accounts. Do not commit a teammate's machine-specific absolute path as a shared installation requirement.
-
-## Establish the product baseline
-
-Provide the actual Drupal repository or project root. Run the read-only helper against it:
+The optional file-based inspector needs Python 3.10+. From a checkout of this repository:
 
 ```bash
 python3 skills/drupal-lms/scripts/inspect_project.py /path/to/drupal-project
 ```
 
-The JSON report distinguishes declared constraints, locked packages, installed-package metadata and discovered LMS source files. It does not access the database, check enabled modules or prove runtime compatibility. It does not read Drupal settings or environment files.
+It reports declared, locked and installed-package evidence separately. Enabled modules and runtime behavior require checks in the actual site. The inspector leaves files unchanged and does not read settings, environment files or the database.
 
-Confirm enabled modules, permissions, membership structure and runtime behavior through the product's established tooling. Use its existing local environment. The [upstream LMS starter](https://github.com/graber-1/drupal_lms_ddev) is a candidate for a new sandbox; this skill repository itself is not that starter.
+## Use the source directly
 
-Continue with [usage](usage.md), [feature planning](product-planning.md) and the [validation record](../VALIDATION.md).
+Keep the complete [skill directory](../skills/drupal-lms/SKILL.md), including its references and assets. Merge the [project-guidance template](../skills/drupal-lms/assets/project-AGENTS.md) into the product's existing `AGENTS.md` and reference the checkout's actual skill path. Preserve existing project conventions.
+
+For assistants with their own skill-management workflow, install that complete directory through the supported mechanism. A local coding-agent installation and an account-wide ChatGPT installation are separate operations.
+
+Contributor setup and package checks are documented in [maintenance](maintenance.md).

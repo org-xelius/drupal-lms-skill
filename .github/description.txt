@@ -1,0 +1,1 @@
+Drupal LMS agent skill for courses, product features and plugins. Install: npx skills add org-xelius/drupal-lms-skill --skill drupal-lms
